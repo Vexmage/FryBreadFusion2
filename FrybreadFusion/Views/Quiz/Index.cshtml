@@ -1,0 +1,33 @@
+﻿@model FrybreadFusion.Models.QuizViewModel
+
+<form asp-action="Index" method="post">
+    @for (int i = 0; i < Model.Questions.Count; i++)
+    {
+        <div>
+            <h3>@Model.Questions[i].Text</h3>
+            @for (int j = 0; j < Model.Questions[i].Options.Count; j++)
+            {
+                <input asp-for="@Model.Questions[i].UserAnswerIndex" type="radio" name="@($"Questions[{i}].UserAnswerIndex")" id="@($"Questions_{i}__UserAnswerIndex_{j}")" value="@j" />
+                <label for="@($"Questions_{i}__UserAnswerIndex_{j}")">@Model.Questions[i].Options[j]</label>
+            }
+        </div>
+    }
+
+    @if (ViewData["Checked"] as bool? != true)
+    {
+        <button type="submit" class="btn-submit">Submit</button>
+    }
+</form>
+
+@if (ViewData["Checked"] as bool? == true)
+{
+    <div>
+        @foreach (var question in Model.Questions)
+        {
+            <p class="@(question.IsCorrect ? "question-correct" : "question-incorrect")">
+                @question.Text - @(question.IsCorrect ? "Correct" : "Incorrect")
+            </p>
+        }
+        <h2>You got @ViewData["Score"] out of @Model.Questions.Count correct!</h2>
+    </div>
+}

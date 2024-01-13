@@ -1,0 +1,87 @@
+/* Base styles for Dark Mode */
+html, body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px; 
+}
+
+.container {
+    margin: 3rem auto; 
+}
+
+
+
+/* Styling for buttons on home page */
+.btn-custom {
+    background-color: #f9ca24; /* This is a golden-yellow shade similar to the design in your screenshot. */
+    color: #000; /* Text color is black for contrast. */
+    border: none;
+}
+
+.btn-custom:hover, .btn-custom:focus {
+    background-color: #f39c12; /* Darker shade for hover and focus states. */
+    color: #000;
+}
+
+/* Homepage cards */
+.card {
+    margin-bottom: 20px;
+}
+
+    .card img {
+        max-height: 200px; /* This will ensure all images are of the same height */
+    }
+
+/* Styling for the blog post cards */
+.card.post-card {
+    background-color: #f5f5f5;
+}
+
+.card.post-card .card-title {
+    color: #333;
+}
+
+.card.post-card .card-text, .list-group-item {
+    color: #555;
+}
+
+.card.post-card .text-muted {
+    color: #888;
+}
+
+/* for the cell phone */
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* Styling for quiz buttons */
+
+.btn-submit {
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-submit:hover {
+    background-color: #003d82;
+}
+
+.question-correct {
+    color: green;
+}
+
+.question-incorrect {
+    color: red;
+}

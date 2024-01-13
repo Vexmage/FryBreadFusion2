@@ -1,0 +1,55 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+    color: #e0e0e0; /* Adding this for the dark theme */
+}
+
+
+
+
+a {
+    color: #80aaff; /* Lighter blue for better visibility on dark */
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.border-top {
+    border-top: 1px solid #444444; /* Darker border for dark theme */
+}
+.border-bottom {
+    border-bottom: 1px solid #444444; /* Darker border for dark theme */
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, 0.5); /* Darker shadow for depth on dark theme */
+}
+
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    background-color: #1f1f1f; /* Dark background for the footer */
+    color: #e0e0e0; /* Light gray text for the footer */
+}

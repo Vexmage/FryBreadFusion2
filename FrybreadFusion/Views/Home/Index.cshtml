@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="banner">
+    <img src="~/images/banner-1.png" alt="Picture of frybread with site title and slogan" class="img-fluid" />
+</div>
+
+<div class="text-center mt-4">
+    <h1 class="display-4">Frybread Fusion</h1>
+    <p>Welcome to Frybread Fusion, a place to learn about the history of Frybread, how it is an example of Indigenuity, and recipes that will get you enjoying diverse frybread from various tribal groups.</p>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Overview Card -->
+        <div class="col-md-3">
+            <div class="card">
+                <img src="~/images/overview.jpg" alt="Overview" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Overview</h5>
+                    <p class="card-text">Learn about the history and significance of frybread.</p>
+                    <a href="@Url.Action("Overview", "Home")" class="btn btn-custom">Overview</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- References Card -->
+        <div class="col-md-3">
+            <div class="card">
+                <img src="~/images/references.jpg" alt="References" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">References</h5>
+                    <p class="card-text">Check out the sources and inspirations for our content.</p>
+                    <a href="@Url.Action("References", "Home")" class="btn btn-custom">References</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Traditions and Stories Card -->
+        <div class="col-md-3">
+            <div class="card">
+                <img src="~/images/traditions.jpg" alt="Traditions and Stories" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Traditions and Stories</h5>
+                    <p class="card-text">Discover the cultural richness behind frybread.</p>
+                    <a asp-controller="Tradition" asp-action="Index" class="btn btn-custom">Traditions and Stories</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Card -->
+        <div class="col-md-3">
+            <div class="card">
+                <img src="~/images/blog.jpg" alt="Blog" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Blog</h5>
+                    <p class="card-text">Read latest updates, news, and recipes related to frybread.</p>
+                    <a asp-controller="Blog" asp-action="Index" class="btn btn-custom">Blog</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

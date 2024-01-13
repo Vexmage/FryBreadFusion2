@@ -1,0 +1,27 @@
+[
+  {
+    "Text": "What is Frybread traditionally made from?",
+    "Options": [ "Wheat flour, sugar, salt, and water", "Cornmeal, honey, and water", "Potatoes, wheat flour, and baking powder", "Rye flour, water, and salt" ],
+    "CorrectAnswerIndex": 0
+  },
+  {
+    "Text": "Which Native American event often features Frybread?",
+    "Options": [ "Sun Dance", "Powwows", "Potlatch", "Kachina ceremonies" ],
+    "CorrectAnswerIndex": 1
+  },
+  {
+    "Text": "Frybread is associated with which sobering historical event?",
+    "Options": [ "The Trail of Tears", "The Long Walk of the Navajo", "The Battle of Little Bighorn", "The Wounded Knee Massacre" ],
+    "CorrectAnswerIndex": 1
+  },
+  {
+    "Text": "What is a common dish that includes Frybread as a main ingredient?",
+    "Options": [ "Navajo taco", "Pemmican", "Succotash", "Bannock" ],
+    "CorrectAnswerIndex": 0
+  },
+  {
+    "Text": "Which legislation led to the widespread adoption of Frybread among Native Americans?",
+    "Options": [ "The Indian Removal Act", "The Dawes Act", "The Indian Reorganization Act", "The Indian Appropriations Act" ],
+    "CorrectAnswerIndex": 3
+  }
+]
