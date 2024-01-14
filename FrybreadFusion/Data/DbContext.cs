@@ -1,12 +1,13 @@
 ﻿using FrybreadFusion.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
 namespace FrybreadFusion.Data
 {
-    public class FrybreadFusionContext : DbContext
+    // Set to inherit from IdentityDbContext instead of DbContext
+    public class FrybreadFusionContext : IdentityDbContext
     {
         public FrybreadFusionContext(DbContextOptions<FrybreadFusionContext> options)
             : base(options)
@@ -20,6 +21,7 @@ namespace FrybreadFusion.Data
         // Seed data for BlogPosts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<BlogPost>().HasData(
                 new BlogPost
                 {
