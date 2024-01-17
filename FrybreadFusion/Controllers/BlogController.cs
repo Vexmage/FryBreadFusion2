@@ -54,7 +54,7 @@ namespace FrybreadFusion.Controllers
 
             return View();
         }
-
+        // update
         [HttpPost]
         public async Task<IActionResult> Post(BlogPost newPost)
         {
