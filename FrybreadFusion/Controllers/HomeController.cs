@@ -17,8 +17,9 @@ namespace FrybreadFusion.Controllers
         public IActionResult Index()
         {
             _logger.LogInformation("Navigated to Home Index");
-            return View();
+            return View("~/Views/Home/Index.cshtml");
         }
+
 
         public IActionResult Overview()
         {
