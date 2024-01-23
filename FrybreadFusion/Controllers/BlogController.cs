@@ -35,12 +35,6 @@ namespace FrybreadFusion.Controllers
             }
         }
 
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 21db3864d5fbd8533e41073b06df5dd39d1abf2d
         public IActionResult Author()
         {
 
