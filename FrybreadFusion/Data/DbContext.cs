@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace FrybreadFusion.Data
 {
     // Set to inherit from IdentityDbContext instead of DbContext
-    public class FrybreadFusionContext : IdentityDbContext
+    public class FrybreadFusionContext : IdentityDbContext<IdentityUser>
     {
         public FrybreadFusionContext(DbContextOptions<FrybreadFusionContext> options)
             : base(options)

@@ -36,13 +36,6 @@ namespace FrybreadFusion.Controllers
         }
 
 
-        public BlogController(IRepository<BlogPost> repository)
-        {
-            _repository = repository;
-        }
-
-
-
         public IActionResult Author()
         {
 
