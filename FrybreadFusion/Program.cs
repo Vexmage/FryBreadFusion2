@@ -13,7 +13,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 builder.Logging.AddEventSourceLogger();
-builder.Logging.SetMinimumLevel(LogLevel.Debug); // Setting LogLevel to Debug for more detailed logs
+builder.Logging.SetMinimumLevel(LogLevel.Debug); // more detailed logs
 
 
 // Add services to container.
@@ -54,7 +54,9 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-// Seed Data
+// Seed Data -- interesting figuring this out. 
+// It seems better than putting my seed data all in the DbContext.cs file,
+// based on some of my reading.
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -72,18 +74,19 @@ app.Run();
 
 
 
-// Method for seeding users asynchronously
+// Method for seeding users asynchronously -- async methods are fun and I've worked with
+// them before, so I wanted to try it out here.  We'll see how it goes! 
 static async Task SeedUsersAsync(UserManager<IdentityUser> userManager)
 {
     if (!userManager.Users.Any())
     {
         var adminUser = new IdentityUser
         {
-            UserName = "admin", // Or use the email as the username
+            UserName = "admin", 
             Email = "vextechmage@gmail.com",
             EmailConfirmed = true
         };
         await userManager.CreateAsync(adminUser, "password"); // Replace with a stronger password in production
-        // Add roles or other user-related data here
+        // Add roles or other user-related data later, once we understand more about those
     }
 }
