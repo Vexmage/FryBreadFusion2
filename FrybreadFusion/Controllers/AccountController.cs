@@ -45,7 +45,7 @@ public class AccountController : Controller
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
-        // If we got this far, something failed, redisplay the form
+        // If we got this far, something failed, so redisplay the form
         return View(model);
     }
     // Display the user login page
@@ -81,6 +81,17 @@ public class AccountController : Controller
         // If we got this far, something failed, display error message
         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
         return View(model);
+    }
+
+    // Handle the user logout
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        // Sign out the user
+        await _signInManager.SignOutAsync();
+        // Redirect to the index page
+        return RedirectToAction(nameof(HomeController.Index), "Home");
     }
 
 
