@@ -58,7 +58,7 @@ public class AccountController : Controller
     // Handle the user login form submission
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+    public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
     {
         if (!ModelState.IsValid)
         {
@@ -68,6 +68,7 @@ public class AccountController : Controller
         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
         if (result.Succeeded)
         {
+            TempData["SuccessMessage"] = "You are now logged in.";
             // Upon successful login, redirect to the page user tried to access,
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             {
@@ -94,5 +95,8 @@ public class AccountController : Controller
         return RedirectToAction(nameof(HomeController.Index), "Home");
     }
 
-
+    public ViewResult AccessDenied()
+    {
+        return View();
+    }
 }
