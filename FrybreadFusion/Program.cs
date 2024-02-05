@@ -59,9 +59,10 @@ app.MapControllerRoute(
 // based on some of my reading.
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-    await SeedUsersAsync(userManager);
+    var services = scope.ServiceProvider; // Get the services from the scope
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>(); // Get the user manager
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>(); //  Get the role manager
+    await SeedDataAsync(userManager, roleManager); // Seed the data
 
     var dbContext = services.GetRequiredService<FrybreadFusionContext>();
     // Ensure the database is created
@@ -76,17 +77,34 @@ app.Run();
 
 // Method for seeding users asynchronously -- async methods are fun and I've worked with
 // them before, so I wanted to try it out here.  We'll see how it goes! 
-static async Task SeedUsersAsync(UserManager<IdentityUser> userManager)
+static async Task SeedDataAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
 {
-    if (!userManager.Users.Any())
+    // Ensure the Admin role exists
+    await EnsureRolesAsync(roleManager);
+
+    // Seed admin user and ensure they are in the Admin role
+    string adminEmail = "admin@example.com"; // Will need to replace with real admin email
+    string adminPassword = "AdminPassword123!"; // production version will need stronger passwd
+    if (!userManager.Users.Any(user => user.Email == adminEmail))
     {
-        var adminUser = new IdentityUser
+        var adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
+        var userResult = await userManager.CreateAsync(adminUser, adminPassword);
+        if (userResult.Succeeded)
         {
-            UserName = "admin", 
-            Email = "vextechmage@gmail.com",
-            EmailConfirmed = true
-        };
-        await userManager.CreateAsync(adminUser, "password"); // Replace with a stronger password in production
-        // Add roles or other user-related data later, once we understand more about those
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
     }
 }
+
+// Method for ensuring roles exist asynchronously
+static async Task EnsureRolesAsync(RoleManager<IdentityRole> roleManager)
+{
+    var adminRoleName = "Admin"; // Name of the admin role
+    var roleExists = await roleManager.RoleExistsAsync(adminRoleName); // Check if the Admin role exists
+    if (!roleExists) // If the Admin role doesn't exist, create it
+    {
+        await roleManager.CreateAsync(new IdentityRole(adminRoleName)); // Create the Admin role
+    }
+}
+
+
