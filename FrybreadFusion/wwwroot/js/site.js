@@ -1,4 +1,13 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+// Plan is to implement some logic here to handle the login form submission
+// I'm particularly interested in making the UI more responsive to the user
+function displayLoginMessage(success, message) {
+    if (success) {
+        alert("Login Successful: " + message);
+        // Additional logic for successful login
+    } else {
+        alert("Login Failed: " + message);
+        // Additional logic for failed login
+    }
+}
 
-// Write your JavaScript code.
