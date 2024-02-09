@@ -3,14 +3,14 @@
 <h2>Role Management</h2>
 
 <h4>Create New Role</h4>
-<form asp-action="CreateRole">
+<form asp-action="CreateRole" method="post">
     <input type="text" name="RoleName" placeholder="Role Name" />
     <button type="submit" class="btn btn-success">Create</button>
 </form>
 
 <h4>Existing Roles</h4>
 <ul>
-    @foreach (var role in ViewBag.Roles as List<string>)
+    @foreach (var role in Model.Roles)
     {
         <li>
             @role
