@@ -2,16 +2,16 @@
 using FrybreadFusion.Data;
 using System;
 using System.Linq;
-using Microsoft.Extensions.Logging; // Ensure you have this using directive
+using Microsoft.Extensions.Logging;
 
 namespace FrybreadFusion.Controllers
 {
     public class CommentsController : Controller
     {
-        private readonly FrybreadFusionContext _context;
+        private readonly MyDatabase _context;
         private readonly ILogger<CommentsController> _logger;
 
-        public CommentsController(FrybreadFusionContext context, ILogger<CommentsController> logger)
+        public CommentsController(MyDatabase context, ILogger<CommentsController> logger)
         {
             _context = context;
             _logger = logger;

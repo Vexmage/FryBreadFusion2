@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FrybreadFusion.Migrations
 {
-    [DbContext(typeof(FrybreadFusionContext))]
+    [DbContext(typeof(MyDatabase))]
     [Migration("20240205054201_AddIdentityRoles")]
     partial class AddIdentityRoles
     {

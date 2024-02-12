@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FrybreadFusion.Migrations
 {
-    [DbContext(typeof(FrybreadFusionContext))]
+    [DbContext(typeof(MyDatabase))]
     partial class FrybreadFusionContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -2,14 +2,18 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FrybreadFusion.Data
 {
-    public static class SeedData
+    // Dummy class for logging purposes
+    public class SeedDataLogger { }
+
+    public class SeedData
     {
-        public static async Task Initialize(IServiceProvider serviceProvider, ILogger<SeedDataLogger> logger)
+        // This method will create the default roles and the default admin user
+        public static async Task Initialize(IServiceProvider serviceProvider, ILogger<SeedData> logger)
+
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -55,9 +59,5 @@ namespace FrybreadFusion.Data
                 }
             }
         }
-
-        // Dummy class for logging purposes
-        public class SeedDataLogger { }
-
     }
 }

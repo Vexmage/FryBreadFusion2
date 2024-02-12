@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FrybreadFusion.Migrations
 {
-    [DbContext(typeof(FrybreadFusionContext))]
-    [Migration("20240212023200_InitialCreate")]
+    [DbContext(typeof(MyDatabase))]
+    [Migration("20240212062715_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
