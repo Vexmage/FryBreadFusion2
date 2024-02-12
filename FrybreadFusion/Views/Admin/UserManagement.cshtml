@@ -21,10 +21,14 @@
                         <input type="hidden" name="userId" value="@user.UserId" />
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                    <form asp-action="AddToAdmin" method="post">
+
+
+                    <form asp-controller="Admin" asp-action="AddToAdmin" method="post">
                         <input type="hidden" name="userId" value="@user.UserId" />
                         <button type="submit" class="btn btn-primary">Add to Admin</button>
                     </form>
+
+
                     <form asp-action="RemoveFromAdmin" method="post">
                         <input type="hidden" name="userId" value="@user.UserId" />
                         <button type="submit" class="btn btn-secondary">Remove from Admin</button>

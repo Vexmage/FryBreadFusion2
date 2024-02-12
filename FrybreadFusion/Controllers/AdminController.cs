@@ -42,6 +42,7 @@ public class AdminController : Controller
         var model = new UserManagementViewModel
         {
             Users = userDetailsViewModelList
+
         };
 
         return View("UserManagement", model);
@@ -67,7 +68,7 @@ public class AdminController : Controller
         {
             // User not found, redirect to management view with an error message
             TempData["ErrorMessage"] = "User not found.";
-            return RedirectToAction("UserManagement");
+            return RedirectToAction("UserManagementView");
         }
 
         var result = await _userManager.DeleteAsync(user);
@@ -81,7 +82,7 @@ public class AdminController : Controller
             // Deletion failed, redirect with an error message
             TempData["ErrorMessage"] = "Failed to delete user. " + result.Errors.FirstOrDefault()?.Description;
         }
-        return RedirectToAction("UserManagement");
+        return RedirectToAction("UserManagementView");
     }
     // This method is used to create a new role
     public async Task<IActionResult> AddToAdmin(string userId)
@@ -90,7 +91,7 @@ public class AdminController : Controller
         if (user == null)
         {
             TempData["ErrorMessage"] = "User not found.";
-            return RedirectToAction("UserManagement");
+            return RedirectToAction("UserManagementView");
         }
         // Add user to Admin role
         var result = await _userManager.AddToRoleAsync(user, "Admin");
@@ -102,7 +103,7 @@ public class AdminController : Controller
         {
             TempData["ErrorMessage"] = "Failed to add user to Admin. " + result.Errors.FirstOrDefault()?.Description;
         }
-        return RedirectToAction("UserManagement");
+        return RedirectToAction("UserManagementView");
     }
 // This method is used to remove a user from the Admin role
     public async Task<IActionResult> RemoveFromAdmin(string userId)
@@ -111,7 +112,7 @@ public class AdminController : Controller
         if (user == null)
         {
             TempData["ErrorMessage"] = "User not found.";
-            return RedirectToAction("UserManagement");
+            return RedirectToAction("UserManagementView");
         }
 
         var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
@@ -123,7 +124,7 @@ public class AdminController : Controller
         {
             TempData["ErrorMessage"] = "Failed to remove user from Admin. " + result.Errors.FirstOrDefault()?.Description;
         }
-        return RedirectToAction("UserManagement");
+        return RedirectToAction("UserManagementView");
     }
 
     public async Task<IActionResult> DeleteRole(string roleName)
@@ -132,7 +133,7 @@ public class AdminController : Controller
         if (role == null)
         {
             TempData["ErrorMessage"] = "Role not found.";
-            return RedirectToAction("UserManagement");
+            return RedirectToAction("UserManagementView");
         }
 
         var result = await _roleManager.DeleteAsync(role);
@@ -144,7 +145,7 @@ public class AdminController : Controller
         {
             TempData["ErrorMessage"] = "Failed to delete role. " + result.Errors.FirstOrDefault()?.Description;
         }
-        return RedirectToAction("UserManagement");
+        return RedirectToAction("UserManagementView");
     }
 
     [HttpPost]
@@ -175,7 +176,7 @@ public class AdminController : Controller
             TempData["ErrorMessage"] = "Role name cannot be empty.";
         }
 
-        return RedirectToAction("RoleManagement");
+        return RedirectToAction("RoleManagementView");
     }
 
 

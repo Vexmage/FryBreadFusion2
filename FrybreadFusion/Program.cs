@@ -27,9 +27,21 @@ builder.Services.AddDbContext<FrybreadFusionContext>(options =>
 // Register the BlogPostRepository with IRepository<BlogPost>
 builder.Services.AddScoped<IRepository<BlogPost>, FrybreadFusion.Data.Repositories.BlogPostRepository>();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    // Password settings, user settings, etc., can be configured here as well
+})
     .AddEntityFrameworkStores<FrybreadFusionContext>()
     .AddDefaultTokenProviders();
+
+// Configure application cookie settings
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login"; // Your login path
+    options.LogoutPath = "/Account/Logout"; // Your logout path
+    options.AccessDeniedPath = "/Account/AccessDenied"; // Your access denied path
+});
+
 
 var app = builder.Build();
 
@@ -42,33 +54,27 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-// Seed Data -- interesting figuring this out. 
-// It seems better than putting my seed data all in the DbContext.cs file,
-// based on some of my reading.
+// Seed the database
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider; // Get the services from the scope
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>(); // Get the user manager
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>(); //  Get the role manager
-    await SeedDataAsync(userManager, roleManager); // Seed the data
-
-    var dbContext = services.GetRequiredService<FrybreadFusionContext>();
-    // Ensure the database is created
-    dbContext.Database.EnsureCreated();
-    // Apply any pending migrations
-    dbContext.Database.Migrate();
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<FrybreadFusion.Data.SeedData.SeedDataLogger>>();
+    try
+    {
+        await SeedData.Initialize(services, logger);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred seeding the Database.");
+    }
 }
 
 app.Run();
@@ -76,7 +82,9 @@ app.Run();
 
 
 // Method for seeding users asynchronously -- async methods are fun and I've worked with
-// them before, so I wanted to try it out here.  We'll see how it goes! 
+// them befor
+// e, so I wanted to try it out here.  We'll see how it goes! 
+/*
 static async Task SeedDataAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
 {
     // Ensure the Admin role exists
@@ -95,8 +103,9 @@ static async Task SeedDataAsync(UserManager<IdentityUser> userManager, RoleManag
         }
     }
 }
-
+*/
 // Method for ensuring roles exist asynchronously
+/*
 static async Task EnsureRolesAsync(RoleManager<IdentityRole> roleManager)
 {
     var adminRoleName = "Admin"; // Name of the admin role
@@ -106,5 +115,6 @@ static async Task EnsureRolesAsync(RoleManager<IdentityRole> roleManager)
         await roleManager.CreateAsync(new IdentityRole(adminRoleName)); // Create the Admin role
     }
 }
+*/
 
 

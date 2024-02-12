@@ -49,16 +49,15 @@
                                 <a class="nav-link text-light" asp-controller="Account" asp-action="Register">Register</a>
                             </li>
                         }
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="Admin" asp-action="UserManagementView">User Management</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="Admin" asp-action="RoleManagementView">Role Management</a>
-                            </li>
-                        }
+                        <!-- For testing: Always show User and Role Management links -->
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-controller="Admin" asp-action="UserManagementView">User Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-controller="Admin" asp-action="RoleManagementView">Role Management</a>
+                        </li>
                     </ul>
+
                 </div>
 
             </div>
