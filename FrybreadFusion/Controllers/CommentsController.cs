@@ -3,6 +3,7 @@ using FrybreadFusion.Data;
 using System;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace FrybreadFusion.Controllers
 {
@@ -18,7 +19,7 @@ namespace FrybreadFusion.Controllers
         }
 
         [HttpGet]
-        public IActionResult FilteredComments(string userName, DateTime? datePosted)
+        public async Task<IActionResult> FilteredComments(string userName, DateTime? datePosted)
         {
             try
             {
@@ -34,7 +35,7 @@ namespace FrybreadFusion.Controllers
                     commentsQuery = commentsQuery.Where(c => c.DatePosted.Date == datePosted.Value.Date);
                 }
 
-                var filteredComments = commentsQuery.ToList();
+                var filteredComments = await commentsQuery.ToListAsync(); // Modified to use ToListAsync for async operation
                 return View(filteredComments);
             }
             catch (Exception ex)
@@ -43,5 +44,6 @@ namespace FrybreadFusion.Controllers
                 return View("Error"); // Or your error handling strategy
             }
         }
+
     }
 }
