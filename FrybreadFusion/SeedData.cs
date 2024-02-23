@@ -13,7 +13,7 @@ namespace FrybreadFusion.Data
     {
         // This method will create the default roles and the default admin user
         public static async Task Initialize(IServiceProvider serviceProvider, ILogger<SeedData> logger)
-
+   
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
