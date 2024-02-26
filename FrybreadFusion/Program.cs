@@ -7,16 +7,14 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Configure logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 builder.Logging.AddEventSourceLogger();
-builder.Logging.SetMinimumLevel(LogLevel.Debug); // more detailed logs
+builder.Logging.SetMinimumLevel(LogLevel.Debug); // More detailed logs
 
-
-// Add services to container.
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 // Add MySQL support
@@ -25,15 +23,15 @@ builder.Services.AddDbContext<FrybreadFusionContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Register the BlogPostRepository with IRepository<BlogPost>
-builder.Services.AddScoped<IRepository<BlogPost>, FrybreadFusion.Data.Repositories.BlogPostRepository>();
+builder.Services.AddScoped<IRepository<BlogPost>, BlogPostRepository>();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<FrybreadFusionContext>()
     .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
-// Configure HTTP request pipeline.
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -53,40 +51,32 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-
-// Seed Data -- interesting figuring this out. 
-// It seems better than putting my seed data all in the DbContext.cs file,
-// based on some of my reading.
+// Seed Data
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
     await SeedUsersAsync(userManager);
 
     var dbContext = services.GetRequiredService<FrybreadFusionContext>();
-    // Ensure the database is created
     dbContext.Database.EnsureCreated();
-    // Apply any pending migrations
     dbContext.Database.Migrate();
 }
 
 app.Run();
 
-
-
-// Method for seeding users asynchronously -- async methods are fun and I've worked with
-// them before, so I wanted to try it out here.  We'll see how it goes! 
-static async Task SeedUsersAsync(UserManager<IdentityUser> userManager)
+// Method for seeding users asynchronously
+static async Task SeedUsersAsync(UserManager<AppUser> userManager)
 {
     if (!userManager.Users.Any())
     {
-        var adminUser = new IdentityUser
+        var adminUser = new AppUser
         {
-            UserName = "admin", 
+            UserName = "admin",
             Email = "vextechmage@gmail.com",
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            FullName = "Joel Southall" // Assuming you've added FullName to AppUser
         };
-        await userManager.CreateAsync(adminUser, "password"); // Replace with a stronger password in production
-        // Add roles or other user-related data later, once we understand more about those
+        await userManager.CreateAsync(adminUser, "password"); // Use a stronger password in production
     }
 }
