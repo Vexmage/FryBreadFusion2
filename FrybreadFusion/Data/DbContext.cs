@@ -84,6 +84,14 @@ namespace FrybreadFusion.Data
                         UserComment = "Navajo tacos are the best!",
                         UserName = "Foodie42",
                         DatePosted = new DateTime(2023, 1, 5)
+                    },
+                    new Comment
+                    {
+                        Id = 4,
+                        BlogPostId = 2,
+                        UserComment = test!",
+                        UserName = "Foodie42",
+                        DatePosted = new DateTime(2023, 1, 5)
                     }
                 );
 
