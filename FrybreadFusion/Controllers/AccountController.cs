@@ -30,7 +30,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             // Copy data from RegisterViewModel to AppUser
-            var user = new AppUser { UserName = model.Email, Email = model.Email, FullName = model.FullName }; // Assume RegisterViewModel includes FullName
+            var user = new AppUser { UserName = model.Email, Email = model.Email, FullName = model.FullName };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
@@ -48,8 +48,6 @@ public class AccountController : Controller
         return View(model);
     }
 
-
-    // Display the user login page and handle login submissions as before
     [HttpGet]
     public IActionResult Login(string returnUrl = null)
     {

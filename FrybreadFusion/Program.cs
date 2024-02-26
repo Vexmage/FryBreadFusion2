@@ -75,7 +75,7 @@ static async Task SeedUsersAsync(UserManager<AppUser> userManager)
             UserName = "admin",
             Email = "vextechmage@gmail.com",
             EmailConfirmed = true,
-            FullName = "Joel Southall" // Assuming you've added FullName to AppUser
+            FullName = "Joel Southall" 
         };
         await userManager.CreateAsync(adminUser, "password"); // Use a stronger password in production
     }
