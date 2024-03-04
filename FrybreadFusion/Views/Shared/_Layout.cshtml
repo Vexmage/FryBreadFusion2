@@ -49,13 +49,22 @@
                                 <a class="nav-link text-light" asp-controller="Account" asp-action="Register">Register</a>
                             </li>
                         }
-                        <!-- For testing: Always show User and Role Management links -->
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Admin" asp-action="UserManagementView">User Management</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Admin" asp-action="RoleManagementView">Role Management</a>
-                        </li>
+
+                        
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <!-- Only show these links to Admin users -->
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Admin" asp-action="UserManagementView">User Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Admin" asp-action="RoleManagementView">Role Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Admin" asp-action="AddUser">Add User</a>
+                            </li>
+                        }
+
                     </ul>
 
                 </div>

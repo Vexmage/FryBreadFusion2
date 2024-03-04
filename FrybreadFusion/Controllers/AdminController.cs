@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 
 // This controller is used to manage users and roles
@@ -24,12 +26,12 @@ public class AdminController : Controller
     // This method is used to display the UserManagementView
     public async Task<IActionResult> UserManagementView()
     {
-        var users = _userManager.Users.ToList();
+        var users = await _userManager.Users.ToListAsync(); // Use ToListAsync for asynchronous operation
         var userDetailsViewModelList = new List<UserDetailsViewModel>();
 
         foreach (var user in users)
         {
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userManager.GetRolesAsync(user); // Fetch roles asynchronously
             var userDetailsViewModel = new UserDetailsViewModel
             {
                 UserId = user.Id,
@@ -42,11 +44,11 @@ public class AdminController : Controller
         var model = new UserManagementViewModel
         {
             Users = userDetailsViewModelList
-
         };
 
         return View("UserManagement", model);
     }
+
 
     // This method is used to display the RoleManagementView
     public IActionResult RoleManagementView()
@@ -178,6 +180,43 @@ public class AdminController : Controller
 
         return RedirectToAction("RoleManagementView");
     }
+
+    // GET: Display the Add User form
+    [HttpGet]
+    public IActionResult AddUser()
+    {
+        return View();
+    }
+
+    // POST: Process the Add User form
+    [HttpPost]
+    public async Task<IActionResult> AddUser(AddUserViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                // add the new user to a default role
+                // await _userManager.AddToRoleAsync(user, "StandardUser");
+
+                TempData["SuccessMessage"] = "User successfully added.";
+                return RedirectToAction("UserManagementView");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+        }
+
+        // Something failed, redisplay form
+        return View(model);
+    }
+
 
 
 }
