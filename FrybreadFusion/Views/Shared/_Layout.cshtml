@@ -51,9 +51,9 @@
                         }
 
                         
-                        @if (User.IsInRole("Admin"))
+                        @* @if (User.IsInRole("Admin")) *@
                         {
-                            <!-- Only show these links to Admin users -->
+                            <!-- Normally Only show these links to Admin users -->
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-controller="Admin" asp-action="UserManagementView">User Management</a>
                             </li>
