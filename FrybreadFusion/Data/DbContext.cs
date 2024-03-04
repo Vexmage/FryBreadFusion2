@@ -19,6 +19,8 @@ namespace FrybreadFusion.Data
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Reply> Replies { get; set; }
+
 
         // Seed data for BlogPosts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -87,7 +89,43 @@ namespace FrybreadFusion.Data
                 }
             );
 
+            // Seed data for Replies
+            modelBuilder.Entity<Reply>().HasData(
+                new Reply
+                {
+                    Id = 1,
+                    CommentId = 1, // Make sure this matches an existing comment's ID
+                    Text = "I completely agree with your points!",
+                    UserName = "ReplyUser1", // Ensure this is provided
+                    DatePosted = new DateTime(2023, 1, 2)
+                },
+                new Reply
+                {
+                    Id = 2,
+                    CommentId = 2, // Ensure this matches an existing comment's ID
+                    Text = "This is a test post!",
+                    UserName = "ReplyUser2", // Ensure this is provided
+                    DatePosted = new DateTime(2023, 1, 4)
+                },
+                new Reply
+                {
+                    Id = 3,
+                    CommentId = 3, // Ensure this matches an existing comment's ID
+                    Text = "What an insightful post!",
+                    UserName = "ReplyUser3", // Ensure this is provided
+                    DatePosted = new DateTime(2023, 1, 6)
+                }
+            );
 
+
+            modelBuilder.Entity<Comment>()
+    .HasMany(c => c.Replies)
+    .WithOne(r => r.Comment)
+    .HasForeignKey(r => r.CommentId)
+    .OnDelete(DeleteBehavior.Cascade);
         }   
     }
+
+
+
 }

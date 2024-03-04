@@ -8,6 +8,7 @@
         public string? Name { get; set; }
         public DateTime DatePosted { get; set; }
         public List<Rating> Ratings { get; set; } = new List<Rating>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
     public class Rating
     {

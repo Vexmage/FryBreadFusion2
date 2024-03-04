@@ -15,21 +15,27 @@
         {
             <div class="col-md-4 mb-4">
                 <div class="card post-card h-100 shadow">
-                    <!-- h-100 makes the card take full height, shadow gives a light shadow effect -->
+                    <!-- Blog Post Content -->
                     <div class="card-body">
                         <h5 class="card-title">@post.Title</h5>
                         <p class="card-text">@post.Text</p>
                         <p class="text-muted"><small><strong>Posted by:</strong> @post.Name on @post.DatePosted.ToShortDateString()</small></p>
                     </div>
+                    <!-- Comments Section -->
                     <ul class="list-group list-group-flush">
-                        @foreach (var rating in post.Ratings)
+                        @foreach (var comment in post.Comments)
                         {
-                            <li class="list-group-item">@rating.Rate</li>
+                            <li class="list-group-item">
+                                <strong>@comment.UserName:</strong> @comment.UserComment
+                                <br>
+                                <small>Posted on @comment.DatePosted.ToString("yyyy-MM-dd")</small>
+                            </li>
                         }
                     </ul>
                 </div>
             </div>
         }
+
 
     </div>
 </div>
