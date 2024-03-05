@@ -38,7 +38,10 @@ builder.Services.AddScoped<IRepository<BlogPost>, FrybreadFusion.Data.Repositori
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
-    // Password settings, user settings, etc., can be configured here as well
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 8;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+    options.Lockout.MaxFailedAccessAttempts = 25;
 })
     .AddEntityFrameworkStores<MyDatabase>()
     .AddDefaultTokenProviders();

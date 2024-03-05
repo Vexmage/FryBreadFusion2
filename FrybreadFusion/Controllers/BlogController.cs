@@ -15,10 +15,10 @@ namespace FrybreadFusion.Controllers
         private readonly MyDatabase _context;
         private readonly ILogger<BlogController> _logger;
 
-        public BlogController(IRepository<BlogPost> repository, MyDatabase context, ILogger<BlogController> logger) // Modify this
+        public BlogController(IRepository<BlogPost> repository, MyDatabase context, ILogger<BlogController> logger) 
         {
             _repository = repository;
-            _context = context; // Add this
+            _context = context; 
             _logger = logger;
         }
 
@@ -93,10 +93,10 @@ namespace FrybreadFusion.Controllers
                 Text = text,
                 DatePosted = DateTime.Now
             };
-            // Again, assuming direct context use; replace with repository method if applicable
+            
             _context.Replies.Add(reply);
             await _context.SaveChangesAsync();
-            // Find the related blog post ID to redirect back to the correct page
+            
             var comment = await _context.Comments.FindAsync(commentId);
             if (comment == null) return NotFound();
             return RedirectToAction(nameof(Details), new { id = comment.BlogPostId });
