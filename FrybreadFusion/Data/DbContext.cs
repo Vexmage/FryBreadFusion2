@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 namespace FrybreadFusion.Data
 {
     // Set to inherit from IdentityDbContext instead of DbContext
-    public class MyDatabase : IdentityDbContext<IdentityUser>
+    public class MyDatabase : IdentityDbContext<AppUser>
     {
         public MyDatabase(DbContextOptions<MyDatabase> options)
             : base(options)

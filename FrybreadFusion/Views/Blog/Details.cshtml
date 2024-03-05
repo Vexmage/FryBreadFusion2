@@ -1,0 +1,75 @@
+﻿@model FrybreadFusion.Models.BlogPost
+
+@{
+    ViewData["Title"] = "Blog Post Details";
+}
+
+<div class="blog-post-details">
+    <h2>@Model.Title</h2>
+    <p class="text-muted">@Model.DatePosted.ToString("MMMM dd, yyyy") by @Model.Name</p>
+    <div class="post-content">
+        @Model.Text
+    </div>
+
+    <hr />
+
+    <div class="comments-section">
+        <h3>Comments</h3>
+        @if (Model.Comments != null && Model.Comments.Any())
+        {
+            foreach (var comment in Model.Comments)
+            {
+                <div class="comment">
+                    <strong>@comment.UserName</strong> said on @comment.DatePosted.ToString("MMMM dd, yyyy"):
+                    <blockquote>@comment.UserComment</blockquote>
+
+                    <!-- Display replies -->
+                    @if (comment.Replies != null && comment.Replies.Any())
+                    {
+                        foreach (var reply in comment.Replies)
+                        {
+                            <div class="reply">
+                                <strong>@reply.UserName</strong> replied on @reply.DatePosted.ToString("MMMM dd, yyyy"):
+                                <blockquote>@reply.Text</blockquote>
+                            </div>
+                        }
+                    }
+
+                    <!-- Add reply form here -->
+                    <form asp-action="AddReply" method="post">
+                        <input type="hidden" name="commentId" value="@comment.Id" />
+                        <div class="form-group">
+                            <label>Your Name:</label>
+                            <input type="text" name="userName" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Your Reply:</label>
+                            <textarea name="text" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Submit Reply</button>
+                    </form>
+                </div>
+                <hr />
+            }
+        }
+        else
+        {
+            <p>No comments yet.</p>
+        }
+
+        <h4>Add a Comment</h4>
+        <form asp-action="AddComment" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="blogPostId" value="@Model.Id" />
+            <div class="form-group">
+                <label>Your Name:</label>
+                <input type="text" name="userName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Your Comment:</label>
+                <textarea name="userComment" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
+    </div>
+</div>

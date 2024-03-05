@@ -3,16 +3,18 @@ using System;
 using FrybreadFusion.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FrybreadFusion.Migrations
+namespace FrybreadFusion.Data.Migrations
 {
     [DbContext(typeof(MyDatabase))]
-    partial class FrybreadFusionContextModelSnapshot : ModelSnapshot
+    [Migration("20240305044427_UpdateToAppUser")]
+    partial class UpdateToAppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

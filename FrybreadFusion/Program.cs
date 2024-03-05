@@ -14,7 +14,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 builder.Logging.AddEventSourceLogger();
-builder.Logging.SetMinimumLevel(LogLevel.Debug); // more detailed logs
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
 
 
 // Add services to container.
@@ -36,22 +36,22 @@ builder.Services.AddScoped<IRepository<BlogPost>, FrybreadFusion.Data.Repositori
 
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-{
+builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 8;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
     options.Lockout.MaxFailedAccessAttempts = 25;
 })
-    .AddEntityFrameworkStores<MyDatabase>()
-    .AddDefaultTokenProviders();
+.AddEntityFrameworkStores<MyDatabase>()
+.AddDefaultTokenProviders();
+
 
 // Configure application cookie settings
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Account/Login"; // Your login path
-    options.LogoutPath = "/Account/Logout"; // Your logout path
-    options.AccessDeniedPath = "/Account/AccessDenied"; // Your access denied path
+    options.LoginPath = "/Account/Login"; 
+    options.LogoutPath = "/Account/Logout"; 
+    options.AccessDeniedPath = "/Account/AccessDenied"; 
 });
 
 
