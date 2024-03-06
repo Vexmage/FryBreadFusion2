@@ -85,3 +85,13 @@ body {
 .question-incorrect {
     color: red;
 }
+
+/* Custom styling for table content in dark mode */
+.table-dark-mode td {
+    color: #e0e0e0; /* Light grey text color for contrast */
+}
+
+/* Optional: Enhance visibility of table headers as well */
+.table-dark-mode th {
+    color: #ffffff; /* White color for headers */
+}

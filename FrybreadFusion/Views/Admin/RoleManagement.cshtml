@@ -1,0 +1,23 @@
+﻿@model FrybreadFusion.ViewModels.RoleViewModel
+
+<h2>Role Management</h2>
+
+<h4>Create New Role</h4>
+<form asp-action="CreateRole" method="post">
+    <input type="text" name="RoleName" placeholder="Role Name" />
+    <button type="submit" class="btn btn-success">Create</button>
+</form>
+
+<h4>Existing Roles</h4>
+<ul>
+    @foreach (var role in Model.Roles)
+    {
+        <li>
+            @role
+            <form asp-action="DeleteRole" method="post">
+                <input type="hidden" name="roleName" value="@role" />
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </li>
+    }
+</ul>
