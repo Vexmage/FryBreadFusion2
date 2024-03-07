@@ -1,4 +1,6 @@
-﻿using FrybreadFusion.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+using FrybreadFusion.Models;
 
 public class Reply
 {

@@ -118,6 +118,21 @@ namespace FrybreadFusion.Controllers
             return View(blogPost);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddRating(int blogPostId, int rate)
+        {
+            var rating = new Rating
+            {
+                BlogPostId = blogPostId,
+                Rate = rate,
+            };
+
+            _context.Ratings.Add(rating);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = blogPostId });
+        }
+
 
     }
 }
