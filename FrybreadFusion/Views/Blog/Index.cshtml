@@ -34,6 +34,7 @@
                 }
             </ul>
             <form asp-action="Delete" asp-controller="Blog" asp-route-id="@post.Id" method="post" class="text-center mb-4">
+                @Html.AntiForgeryToken()
                 <button type="submit" class="btn btn-danger">Delete Post</button>
             </form>
         </div>

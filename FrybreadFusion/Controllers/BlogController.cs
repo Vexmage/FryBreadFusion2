@@ -104,10 +104,11 @@ namespace FrybreadFusion.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            // This ensures you load the blog post along with its comments and replies.
+            
             var blogPost = await _context.BlogPosts
                                          .Include(bp => bp.Comments)
                                              .ThenInclude(c => c.Replies)
+                                         .Include(bp => bp.Ratings)
                                          .FirstOrDefaultAsync(bp => bp.Id == id);
 
             if (blogPost == null)
@@ -131,6 +132,21 @@ namespace FrybreadFusion.Controllers
             _context.Ratings.Add(rating);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Details), new { id = blogPostId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var blogPost = await _context.BlogPosts.FindAsync(id);
+            if (blogPost == null)
+            {
+                return NotFound();
+            }
+
+            _context.BlogPosts.Remove(blogPost);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
 

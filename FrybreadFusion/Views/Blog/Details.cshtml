@@ -14,6 +14,11 @@
         <div class="post-content mb-4">
             @Html.Raw(Model.Text) <!-- Use Html.Raw for safe HTML content -->
         </div>
+        
+        <div class="average-rating">
+            <h3>Average Rating: @Model.Ratings.DefaultIfEmpty().Average(r => r == null ? 0 : r.Rate)</h3>
+        </div>
+
 
         <!-- Rating form -->
         <div class="rating-form mb-3">

@@ -58,6 +58,13 @@ namespace FrybreadFusion.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        
+        public async Task<IActionResult> Index()
+        {
+            var comments = await _context.Comments.ToListAsync();
+            return View(comments);
+        }
+
 
     }
 }
