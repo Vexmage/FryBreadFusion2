@@ -41,8 +41,22 @@ namespace FrybreadFusion.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while filtering comments.");
-                return View("Error"); // Or your error handling strategy
+                return View("Error"); 
             }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            _context.Comments.Remove(comment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
     }

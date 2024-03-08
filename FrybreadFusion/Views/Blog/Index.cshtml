@@ -10,32 +10,36 @@
 
 <div class="container mt-5">
     <div class="row">
-        @foreach (var post in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card post-card h-100 shadow">
-                    <!-- Blog Post Content -->
-                    <div class="card-body">
-                        <h5 class="card-title">@post.Title</h5>
-                        <p class="card-text">@post.Text</p>
-                        <p class="text-muted"><small><strong>Posted by:</strong> @post.Name on @post.DatePosted.ToShortDateString()</small></p>
-                        <!-- Read More Link -->
-                        <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-info">Read More</a>
-                    </div>
-                    <!-- Comments Section -->
-                    <ul class="list-group list-group-flush">
-                        @foreach (var comment in post.Comments)
-                        {
-                            <li class="list-group-item">
-                                <strong>@comment.UserName:</strong> @comment.UserComment
-                                <br>
-                                <small>Posted on @comment.DatePosted.ToString("yyyy-MM-dd")</small>
-                            </li>
-                        }
-                    </ul>
-                </div>
+@foreach (var post in Model)
+{
+    <div class="col-md-4 mb-4">
+        <div class="card post-card h-100 shadow">
+            <div class="card-body">
+                <h5 class="card-title">@post.Title</h5>
+                <p class="card-text">@post.Text</p>
+                <p class="text-muted"><small><strong>Posted by:</strong> @post.Name on @post.DatePosted.ToShortDateString()</small></p>
+                <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-info">Read More</a>
             </div>
-        }
+            <ul class="list-group list-group-flush">
+                @foreach (var comment in post.Comments)
+                {
+                    <li class="list-group-item">
+                        <strong>@comment.UserName:</strong> @comment.UserComment
+                        <br>
+                        <small>Posted on @comment.DatePosted.ToString("yyyy-MM-dd")</small>
+                        <form asp-action="DeleteComment" asp-controller="Comments" asp-route-id="@comment.Id" method="post" class="mt-2">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete Comment</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+            <form asp-action="Delete" asp-controller="Blog" asp-route-id="@post.Id" method="post" class="text-center mb-4">
+                <button type="submit" class="btn btn-danger">Delete Post</button>
+            </form>
+        </div>
+    </div>
+}
+
     </div>
 </div>
 
