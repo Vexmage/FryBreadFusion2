@@ -10,9 +10,11 @@ namespace FrybreadFusion.Models
         public int Id { get; set; }
         
         [Required(ErrorMessage = "Please enter your name.")]
+        [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
         public string? UserName { get; set; }
         
         [Required(ErrorMessage = "Please enter a comment.")]
+        [StringLength(500, ErrorMessage = "Comment cannot be longer than 500 characters.")]
         public string? UserComment { get; set; } 
         
         public DateTime DatePosted { get; set; }

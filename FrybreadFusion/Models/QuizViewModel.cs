@@ -33,6 +33,7 @@
         public string Text { get; set; } = string.Empty;
         public List<string> Options { get; set; } = new List<string>();
         public int CorrectAnswerIndex { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Please select a valid answer.")]
         public int UserAnswerIndex { get; set; } = -1;
         public bool IsCorrect { get; set;}
     }
