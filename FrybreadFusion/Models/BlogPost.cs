@@ -8,13 +8,12 @@ namespace FrybreadFusion.Models
     {
         public BlogPost()
         {
-            // Set the default value for DatePosted to the current date and time when the BlogPost object is instantiated.
+
             DatePosted = DateTime.Now;
         }
         public int Id { get; set; }
-        
         [Required(ErrorMessage = "Please provide a title for the blog post.")]
-        [StringLength(100, ErrorMessage = "The title must be less than 100 characters.")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "The title must be between 3 and 100 characters.")]
         public string? Title { get; set; }
         
         [Required(ErrorMessage = "Please provide text for the blog post.")]

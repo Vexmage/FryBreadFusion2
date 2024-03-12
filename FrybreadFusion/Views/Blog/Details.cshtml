@@ -41,7 +41,7 @@
 
         <script>
         function ratePost(rating) {
-            document.getElementById('selectedRating').value = rating; // Update the hidden input field with selected rating
+            document.getElementById('selectedRating').value = rating; 
             for (let i = 1; i <= 5; i++) {
                 let star = document.getElementById('rate-' + i);
                 if (i <= rating) {
