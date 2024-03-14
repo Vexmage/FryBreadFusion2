@@ -10,9 +10,9 @@ namespace FrybreadFusion.Data.Repositories
 {
     public class BlogPostRepository : IRepository<BlogPost>
     {
-        private readonly FrybreadFusionContext _context;
+        private readonly MyDatabase _context;
 
-        public BlogPostRepository(FrybreadFusionContext context)
+        public BlogPostRepository(MyDatabase context)
         {
             _context = context;
         }

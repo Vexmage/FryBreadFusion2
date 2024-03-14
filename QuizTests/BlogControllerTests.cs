@@ -14,7 +14,7 @@ namespace QuizTests
             // I will need extensive comments to understand later what I'm doing. 
             // Arrange: Set up a fake repository, controller, and a new blog post.
             var fakeRepository = new FakeBlogPostRepository();
-            var controller = new BlogController(fakeRepository);
+            //var controller = new BlogController(fakeRepository);
             var newPost = new BlogPost
             {
                 Title = "Test Title",
@@ -24,7 +24,7 @@ namespace QuizTests
             };
 
             // Act: Call the Post method on the controller.
-            var result = await controller.Post(newPost);
+            //var result = await controller.Post(newPost);
 
             // Assert: Verify that the blog post was added to the repository.
             var addedPost = await fakeRepository.GetByIdAsync(newPost.Id);

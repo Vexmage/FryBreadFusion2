@@ -12,12 +12,13 @@ namespace FrybreadFusion.Controllers
     public class BlogController : Controller
     {
         private readonly IRepository<BlogPost> _repository;
-        
+        private readonly MyDatabase _context;
         private readonly ILogger<BlogController> _logger;
 
-        public BlogController(IRepository<BlogPost> repository, ILogger<BlogController> logger)
+        public BlogController(IRepository<BlogPost> repository, MyDatabase context, ILogger<BlogController> logger) 
         {
             _repository = repository;
+            _context = context; 
             _logger = logger;
         }
 
@@ -25,17 +26,18 @@ namespace FrybreadFusion.Controllers
         {
             try
             {
-                var posts = await _repository.GetAllAsync();
+                var posts = await _context.BlogPosts
+                                          .Include(p => p.Comments)
+                                              .ThenInclude(c => c.Replies)
+                                          .ToListAsync();
                 return View(posts);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in BlogController.Index");
-                return RedirectToAction("Error", "Home"); // Redirect to a generic error page
+                return RedirectToAction("Error", "Home");
             }
         }
-
-
 
 
         public IActionResult Author()
@@ -62,5 +64,91 @@ namespace FrybreadFusion.Controllers
 
             return View(newPost);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(int blogPostId, string userName, string userComment)
+        {
+            var comment = new Comment
+            {
+                BlogPostId = blogPostId,
+                UserName = userName,
+                UserComment = userComment,
+                DatePosted = DateTime.Now
+            };
+
+            _context.Comments.Add(comment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = blogPostId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddReply(int commentId, string userName, string text)
+        {
+            var reply = new Reply
+            {
+                CommentId = commentId,
+                UserName = userName,
+                Text = text,
+                DatePosted = DateTime.Now
+            };
+            
+            _context.Replies.Add(reply);
+            await _context.SaveChangesAsync();
+            
+            var comment = await _context.Comments.FindAsync(commentId);
+            if (comment == null) return NotFound();
+            return RedirectToAction(nameof(Details), new { id = comment.BlogPostId });
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            
+            var blogPost = await _context.BlogPosts
+                                         .Include(bp => bp.Comments)
+                                             .ThenInclude(c => c.Replies)
+                                         .Include(bp => bp.Ratings)
+                                         .FirstOrDefaultAsync(bp => bp.Id == id);
+
+            if (blogPost == null)
+            {
+                return NotFound();
+            }
+
+            return View(blogPost);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddRating(int blogPostId, int rate)
+        {
+            var rating = new Rating
+            {
+                BlogPostId = blogPostId,
+                Rate = rate,
+            };
+
+            _context.Ratings.Add(rating);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = blogPostId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var blogPost = await _context.BlogPosts.FindAsync(id);
+            if (blogPost == null)
+            {
+                return NotFound();
+            }
+
+            _context.BlogPosts.Remove(blogPost);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }

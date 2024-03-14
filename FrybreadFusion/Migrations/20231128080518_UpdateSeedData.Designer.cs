@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FrybreadFusion.Migrations
 {
-    [DbContext(typeof(FrybreadFusionContext))]
+    [DbContext(typeof(MyDatabase))]
     [Migration("20231128080518_UpdateSeedData")]
     partial class UpdateSeedData
     {

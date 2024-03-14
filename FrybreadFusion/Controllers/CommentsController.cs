@@ -2,23 +2,24 @@
 using FrybreadFusion.Data;
 using System;
 using System.Linq;
-using Microsoft.Extensions.Logging; // Ensure you have this using directive
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace FrybreadFusion.Controllers
 {
     public class CommentsController : Controller
     {
-        private readonly FrybreadFusionContext _context;
+        private readonly MyDatabase _context;
         private readonly ILogger<CommentsController> _logger;
 
-        public CommentsController(FrybreadFusionContext context, ILogger<CommentsController> logger)
+        public CommentsController(MyDatabase context, ILogger<CommentsController> logger)
         {
             _context = context;
             _logger = logger;
         }
 
         [HttpGet]
-        public IActionResult FilteredComments(string userName, DateTime? datePosted)
+        public async Task<IActionResult> FilteredComments(string userName, DateTime? datePosted)
         {
             try
             {
@@ -34,14 +35,36 @@ namespace FrybreadFusion.Controllers
                     commentsQuery = commentsQuery.Where(c => c.DatePosted.Date == datePosted.Value.Date);
                 }
 
-                var filteredComments = commentsQuery.ToList();
+                var filteredComments = await commentsQuery.ToListAsync(); // Modified to use ToListAsync for async operation
                 return View(filteredComments);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while filtering comments.");
-                return View("Error"); // Or your error handling strategy
+                return View("Error"); 
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            _context.Comments.Remove(comment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        
+        public async Task<IActionResult> Index()
+        {
+            var comments = await _context.Comments.ToListAsync();
+            return View(comments);
+        }
+
+
     }
 }
