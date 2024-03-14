@@ -95,3 +95,47 @@ body {
 .table-dark-mode th {
     color: #ffffff; /* White color for headers */
 }
+
+/* Enhancements for blog post details */
+.blog-post-details {
+    color: #e0e0e0; /* Ensure good contrast in dark mode */
+    font-size: 1.1rem; /* Slightly larger text for readability */
+    line-height: 1.6; /* Improve readability */
+}
+
+.blog-post-details h2.display-4 {
+    font-size: 2.5rem; /* Make the blog title larger */
+    color: #ffffff; /* Brighter color for title */
+    margin-bottom: 1rem;
+}
+
+.blog-post-details .text-muted {
+    font-size: 0.95rem;
+    color: #cccccc; /* Subtle contrast for meta info */
+}
+
+/* Styling for the rating stars */
+.star-rating i {
+    cursor: pointer;
+    font-size: 1.5rem; /* Larger stars for easier interaction */
+}
+
+/* Custom styling for comments and replies */
+.comments-section .card {
+    background-color: #222831; /* Dark background for comments */
+    color: #e0e0e0; /* Light text for readability */
+    margin-bottom: 1rem;
+}
+
+.comments-section .card-header {
+    background-color: #393e46; /* Slightly lighter background for headers */
+    color: #ffffff;
+}
+
+.comments-section .list-group-item {
+    background-color: #333840; /* Differentiate replies with a darker background */
+}
+
+.comments-section .card-footer {
+    background-color: #393e46; /* Consistent with card-header */
+}
