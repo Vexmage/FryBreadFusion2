@@ -52,6 +52,19 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Lets add some custom security headers in the middleware pipeline as per the OWASP Secure Headers fixes we've identified that we need
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none';");
+    context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("Referrer-Policy", "no-referrer");
+    // we may need more if we want to solve all the vulnerability issues
+
+    await next();
+});
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 
