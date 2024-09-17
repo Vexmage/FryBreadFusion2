@@ -1,20 +1,20 @@
 using FrybreadFusion.Data;
 using FrybreadFusion.Data.Repositories;
 using FrybreadFusion.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 // Configure logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 builder.Logging.AddEventSourceLogger();
-builder.Logging.SetMinimumLevel(LogLevel.Debug); // Setting LogLevel to Debug for more detailed logs
+builder.Logging.SetMinimumLevel(LogLevel.Debug); // More detailed logs
 
-
-// Add services to container.
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 // Add MySQL support
@@ -23,11 +23,15 @@ builder.Services.AddDbContext<FrybreadFusionContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Register the BlogPostRepository with IRepository<BlogPost>
-builder.Services.AddScoped<IRepository<BlogPost>, FrybreadFusion.Data.Repositories.BlogPostRepository>();
+builder.Services.AddScoped<IRepository<BlogPost>, BlogPostRepository>();
+
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<FrybreadFusionContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
-// Configure HTTP request pipeline.
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -39,22 +43,40 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Let's get that seed info in there!
+// Seed Data
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<FrybreadFusionContext>();
-    // Ensure the database is created
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    await SeedUsersAsync(userManager);
+
+    var dbContext = services.GetRequiredService<FrybreadFusionContext>();
     dbContext.Database.EnsureCreated();
-
-    // This checks for any pending migrations and applies them.
     dbContext.Database.Migrate();
-
 }
 
 app.Run();
+
+// Method for seeding users asynchronously
+static async Task SeedUsersAsync(UserManager<AppUser> userManager)
+{
+    if (!userManager.Users.Any())
+    {
+        var adminUser = new AppUser
+        {
+            UserName = "admin",
+            Email = "vextechmage@gmail.com",
+            EmailConfirmed = true,
+            FullName = "Joel Southall" 
+        };
+        await userManager.CreateAsync(adminUser, "password"); // Use a stronger password in production
+    }
+}
