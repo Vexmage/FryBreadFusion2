@@ -25,6 +25,10 @@
                         <!-- NAV ITEMS -->
                     </ul>
                     <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -45,7 +49,24 @@
                                 <a class="nav-link text-light" asp-controller="Account" asp-action="Register">Register</a>
                             </li>
                         }
+
+                        
+                        @* @if (User.IsInRole("Admin")) *@
+                        {
+                            <!-- Normally Only show these links to Admin users -->
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Admin" asp-action="UserManagementView">User Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Admin" asp-action="RoleManagementView">Role Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Admin" asp-action="AddUser">Add User</a>
+                            </li>
+                        }
+
                     </ul>
+
                 </div>
 
             </div>
