@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using FrybreadFusion.Models;
+
 
 namespace FrybreadFusion.Data
 {
@@ -13,9 +15,12 @@ namespace FrybreadFusion.Data
     {
         // This method will create the default roles and the default admin user
         public static async Task Initialize(IServiceProvider serviceProvider, ILogger<SeedData> logger)
+
    
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+
+
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             await EnsureRolesAsync(roleManager, logger);
@@ -33,7 +38,7 @@ namespace FrybreadFusion.Data
             }
         }
 
-        private static async Task EnsureAdminUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ILogger logger)
+        private static async Task EnsureAdminUserAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, ILogger logger)
         {
             string adminEmail = "admin@example.com";
             string adminPassword = "AdminPassword123!";
@@ -42,12 +47,7 @@ namespace FrybreadFusion.Data
             if (adminUser == null)
             {
                 logger.LogInformation($"Creating the admin user");
-                adminUser = new IdentityUser
-                {
-                    UserName = adminEmail,
-                    Email = adminEmail,
-                    EmailConfirmed = true
-                };
+                adminUser = new AppUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
                 var userResult = await userManager.CreateAsync(adminUser, adminPassword);
                 if (userResult.Succeeded)
                 {
@@ -59,5 +59,6 @@ namespace FrybreadFusion.Data
                 }
             }
         }
+
     }
 }

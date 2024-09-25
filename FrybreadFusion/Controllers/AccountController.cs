@@ -1,21 +1,25 @@
 ﻿using FrybreadFusion.Controllers;
 using FrybreadFusion.ViewModels;
+using FrybreadFusion.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 public class AccountController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<AppUser> _userManager;
+    private readonly SignInManager<AppUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
     // Constructor here initializes UserManager, SignInManager and roleManager
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
+    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
     }
+
+
+
 
     // Display the user registration page
     [HttpGet]
@@ -31,7 +35,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             // Copy data from RegisterViewModel to IdentityUser
-            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+            var user = new AppUser { UserName = model.Email, Email = model.Email, FullName = model.FullName };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             // If user is successfully created, sign-in the user using

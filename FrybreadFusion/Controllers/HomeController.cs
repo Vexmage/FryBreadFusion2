@@ -58,5 +58,11 @@ namespace FrybreadFusion.Controllers
 
             return View();
         }
+        
+        public IActionResult Error()
+        {
+            // Your logic for error handling
+            return View();
+        }
     }
 }

@@ -1,0 +1,146 @@
+﻿@model FrybreadFusion.Models.BlogPost
+
+@{
+    ViewData["Title"] = "Blog Post Details";
+}
+
+<div class="container mt-4">
+    <!-- Back Button -->
+    <a href="@Url.Action("Index", "Blog")" class="btn btn-light mb-4"><i class="bi bi-arrow-left"></i> Back to Posts</a>
+
+    <div class="blog-post-details bg-white p-3 shadow rounded">
+        <h2 class="display-4">@Model.Title</h2>
+        <p class="text-muted">@Model.DatePosted.ToString("MMMM dd, yyyy") by @Model.Name</p>
+        <div class="post-content mb-4">
+            @Html.Raw(Model.Text) <!-- Use Html.Raw for safe HTML content -->
+        </div>
+        
+        <div class="average-rating">
+            <h3>Average Rating: @Model.Ratings.DefaultIfEmpty().Average(r => r == null ? 0 : r.Rate)</h3>
+        </div>
+
+
+        <!-- Rating form -->
+        <div class="rating-form mb-3">
+            <form asp-action="AddRating" asp-controller="Blog" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="BlogPostId" value="@Model.Id" />
+                <label>Rate this post:</label>
+                <div class="star-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <button type="button" onclick="ratePost(@i)" class="btn p-0">
+                            <i class="far fa-star" style="color: orange;" id="rate-@i"></i>
+                        </button>
+                    }
+                </div>
+                <input type="hidden" id="selectedRating" name="rate" value="0" />
+                <button type="submit" class="btn btn-primary mt-2">Submit Rating</button>
+            </form>
+        </div>
+
+        <script>
+        function ratePost(rating) {
+            document.getElementById('selectedRating').value = rating; // Update the hidden input field with selected rating
+            for (let i = 1; i <= 5; i++) {
+                let star = document.getElementById('rate-' + i);
+                if (i <= rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas'); // Make star solid
+                } else {
+                    star.classList.remove('fas');
+                    star.classList.add('far'); // Make star outline
+                }
+            }
+        }
+        </script>
+        <form asp-action="AddRating" asp-controller="Blog" method="post">
+            @Html.AntiForgeryToken()
+            <div class="rating-input">
+
+                <div>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <button type="button" onclick="ratePost(@i)" class="btn p-0">
+                            <i class="far fa-star" style="color: orange;" id="rate-@i"></i>
+                        </button>
+                    }
+                </div>
+
+            </div>
+        </form>
+
+
+        
+        <div class="comments-section mt-4">
+            <h3>Comments</h3>
+            @if (Model.Comments.Any())
+            {
+                foreach (var comment in Model.Comments)
+                {
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <strong>@comment.UserName</strong> said on @comment.DatePosted.ToString("MMMM dd, yyyy"):
+                        </div>
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <p>@comment.UserComment</p>
+                            </blockquote>
+                        </div>
+                        <!-- Replies Section -->
+                        @if (comment.Replies.Any())
+                        {
+                            foreach (var reply in comment.Replies)
+                            {
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item">
+                                        <strong>@reply.UserName</strong> replied on @reply.DatePosted.ToString("MMMM dd, yyyy"):
+                                        <blockquote class="blockquote mb-0">
+                                            <p>@reply.Text</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        <!-- Add reply form -->
+                        <div class="card-footer">
+                            <form asp-action="AddReply" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="commentId" value="@comment.Id" />
+                                <div class="form-group">
+                                    <label>Your Name:</label>
+                                    <input type="text" name="userName" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Your Reply:</label>
+                                    <textarea name="text" class="form-control" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-secondary">Submit Reply</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No comments yet.</p>
+            }
+
+            <h4>Add a Comment</h4>
+            <form asp-action="AddComment" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="blogPostId" value="@Model.Id" />
+                <div class="form-group">
+                    <label>Your Name:</label>
+                    <input type="text" name="userName" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Your Comment:</label>
+                    <textarea name="userComment" class="form-control" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Comment</button>
+            </form>
+        </div>
+    </div>
+</div>

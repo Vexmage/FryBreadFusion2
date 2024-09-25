@@ -1,0 +1,32 @@
+<diagram program="umletino" version="15.1"><zoom_level>15</zoom_level><element><id>UMLClass</id><coordinates><x>480</x><y>90</y><w>315</w><h>195</h></coordinates><panel_attributes>_BlogPost_ (Root entity)
+--
+Id: int
+Title: string
+Text: string
+Name: string
+DatePosted:DateTime</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>465</y><w>315</w><h>300</h></coordinates><panel_attributes>_Comment_
+--
+Id: int
+UserName: string
+UserComment: string
+DatePosted: DateTime
+BlogPostId: int(Foreign Key)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>690</x><y>795</y><w>315</w><h>195</h></coordinates><panel_attributes>_Reply_
+--
+Id: int
+Title: string
+Text: string
+Name: string
+DatePosted:DateTime
+CommentId:int(Foreign Key)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>765</x><y>465</y><w>315</w><h>180</h></coordinates><panel_attributes>_Rating_
+--
+Id: int
+Rate: int
+BlogPostId: int(Foreign Key)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>750</x><y>270</y><w>75</w><h>225</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>10;10;30;130</additional_attributes></element><element><id>Relation</id><coordinates><x>510</x><y>270</y><w>105</w><h>225</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>50;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>510</x><y>750</y><w>210</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>10;10;120;140</additional_attributes></element></diagram>
